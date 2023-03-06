@@ -139,7 +139,7 @@ void sgp30_set_IAQ_baseline(sgp30_dev_t *sensor, uint16_t eco2_base, uint16_t tv
 
 void sgp30_set_humidity(sgp30_dev_t *sensor, uint32_t absolute_humidity) {
     if (absolute_humidity > 256000) {
-        ESP_LOGW(TAG, "%s - Abs humidity value %d is too high!", __FUNCTION__, absolute_humidity);
+        ESP_LOGW(TAG, "%s - Abs humidity value %ld is too high!", __FUNCTION__, absolute_humidity);
         return;
     }
 
@@ -190,7 +190,7 @@ static esp_err_t sgp30_execute_command(sgp30_dev_t *device, uint8_t command[], u
     }
 
     // Waits for device to process command and measure desired value
-    vTaskDelay(delay / portTICK_RATE_MS);
+    vTaskDelay(delay / portTICK_PERIOD_MS);
 
     // Checks if there is data to be read from the user, (or if it's just a simple command write)
     if (read_len == 0) {
